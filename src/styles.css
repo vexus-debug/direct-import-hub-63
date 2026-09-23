@@ -1,7 +1,10 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @config "../tailwind.config.ts";
-@custom-variant dark (&:is(.dark *));
+/* Dark applies inside the dashboard shell and inside anything the dashboard
+   renders in a portal (dialogs, sheets, dropdowns, selects, toasts), which
+   live outside the shell in the DOM. */
+@custom-variant dark (&:is(.dark *, .dashboard-dark [role="dialog"] *, .dashboard-dark [role="alertdialog"] *, .dashboard-dark [data-radix-popper-content-wrapper] *, .dashboard-dark [data-sonner-toaster] *, .dashboard-dark [data-vaul-drawer] *));
 
 
 /*
