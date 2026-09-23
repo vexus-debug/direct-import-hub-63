@@ -68,19 +68,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                     transition={{ duration: 0.2 }}
                     className="flex-1 overflow-y-auto overscroll-contain px-4 py-5 scroll-momentum"
                   >
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={location.pathname}
-                        variants={pageVariants}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                        transition={{ duration: 0.2 }}
-                        className="mx-auto w-full max-w-[1540px]"
-                      >
-                        {children}
-                      </motion.div>
-                    </AnimatePresence>
+                    <div className="mx-auto w-full max-w-[1540px]">{children}</div>
                   </motion.main>
                 ) : (
                   <motion.div
