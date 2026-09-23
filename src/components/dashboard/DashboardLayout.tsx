@@ -6,43 +6,16 @@ import { DashboardHeader } from "./DashboardHeader";
 import { AICopilotPanel } from "./AICopilotPanel";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocation, useNavigationType } from "react-router-dom";
 import { Stethoscope, LayoutDashboard, ClipboardPlus } from "lucide-react";
 
 interface DashboardLayoutProps {
   children: ReactNode;
 }
 
-const springTransition = {
-  type: "spring" as const,
-  stiffness: 350,
-  damping: 30,
-  mass: 0.8,
-};
-
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [aiOpen, setAiOpen] = useState(false);
   const { appearance, toggleAppearance } = useAppearance();
   const isMobile = useIsMobile();
-  const location = useLocation();
-  const navType = useNavigationType();
-  const isBack = navType === "POP";
-
-
-  // Mobile Chrome shows composited-tile corruption (horizontal noise lines)
-  // when large scrolling subtrees are transformed/scaled. Use a plain fade
-  // on mobile and keep the slide only on desktop.
-  const pageVariants = isMobile
-    ? {
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        exit: { opacity: 0 },
-      }
-    : {
-        initial: { opacity: 0, x: isBack ? -40 : 40, scale: 0.98 },
-        animate: { opacity: 1, x: 0, scale: 1 },
-        exit: { opacity: 0, x: isBack ? 40 : -40, scale: 0.98 },
-      };
 
   return (
     <SidebarProvider>
@@ -68,19 +41,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                     transition={{ duration: 0.2 }}
                     className="flex-1 overflow-y-auto overscroll-contain px-4 py-5 scroll-momentum"
                   >
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={location.pathname}
-                        variants={pageVariants}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                        transition={{ duration: 0.2 }}
-                        className="mx-auto w-full max-w-[1540px]"
-                      >
-                        {children}
-                      </motion.div>
-                    </AnimatePresence>
+                    <div className="mx-auto w-full max-w-[1540px]">{children}</div>
                   </motion.main>
                 ) : (
                   <motion.div
@@ -149,19 +110,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           ) : (
             <>
               <main className="flex-1 overflow-y-auto overscroll-contain px-5 py-6 lg:px-8 lg:py-7 scroll-momentum">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={location.pathname}
-                    variants={pageVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    transition={springTransition}
-                    className="gpu-accelerated mx-auto w-full max-w-[1540px]"
-                  >
-                    {children}
-                  </motion.div>
-                </AnimatePresence>
+                <div className="mx-auto w-full max-w-[1540px]">{children}</div>
               </main>
               <AICopilotPanel open={aiOpen} onClose={() => setAiOpen(false)} />
             </>
