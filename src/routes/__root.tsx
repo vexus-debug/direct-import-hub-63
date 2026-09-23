@@ -132,6 +132,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      {/* The imported app owns its own routing and is mounted once here, so it
+          is never unmounted/remounted when the URL changes (that caused a blank
+          flash on every navigation). */}
+      <LegacyAppHost />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
