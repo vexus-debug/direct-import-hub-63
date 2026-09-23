@@ -119,6 +119,12 @@ export default function DentalChartsPage() {
   const patientId = selectedPatientId || patients[0]?.id;
   const { data: entries = [] } = useDentalChartEntries(patientId);
 
+  // Wait until the clinic is resolved — redirecting before that would bounce
+  // dental clinics back to the dashboard on a fresh page load.
+  if (!currentOrg) {
+    return null;
+  }
+
   // Tooth charting only applies to dental clinics
   if (!terms.showDentalChart) {
     return <Navigate to={isEyeClinic ? "../eye/charts" : "../dashboard"} replace />;
